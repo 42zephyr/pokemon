@@ -4,6 +4,8 @@ const character ={
     name:'Pikachu',
     defaultHP:100,
     damageHP:90,
+    elHP:document.getElementById('health-character'),
+    elProgressbar:document.getElementById('progressbar-character'),
     renderHP:function (){
         this.elHP.innerText=this.damageHP+'/'+this.defaultHP;
         this.elProgressbar.style.width=this.damageHP+'%';
@@ -11,8 +13,9 @@ const character ={
     changeHP :function (count){
         if(this.damageHP<count){
             this.damageHP=0;
+            $btn1.disabled=true;
+            $btn2.disabled=true;
             alert(this.name+' lose!');
-            $btn.disabled=true;
         }else{
         this.damageHP-=count;    
         }
@@ -23,6 +26,8 @@ const enemy={
     name:'Charmander',
     defaultHP:100,
     damageHP:90,
+    elHP:document.getElementById('health-enemy'),
+    elProgressbar:document.getElementById('progressbar-enemy'),
     renderHP:function (){
         this.elHP.innerText=this.damageHP+'/'+this.defaultHP;
         this.elProgressbar.style.width=this.damageHP+'%';
@@ -30,19 +35,15 @@ const enemy={
     changeHP:function (count){
         if(this.damageHP<count){
             this.damageHP=0;
+            $btn1.disabled=true;
+            $btn2.disabled=true;
             alert(this.name+' lose!');
-            $btn.disabled=true;
         }else{
         this.damageHP-=count;    
         }
     }
 }
-$btn1.addEventListener('click',
-    attack(20,20,'kick')
-)
-$btn2.addEventListener('click',
-    attack(30,10,'strike')
-)
+
 
 function attack(cdamage,edamage,atack){
     console.log(atack);
@@ -59,18 +60,11 @@ function init() {
     console.log('Start Game!');
 
 }
-function renderHP(person){
-    person.elHP.innerText=person.damageHP+'/'+person.defaultHP;
-    person.elProgressbar.style.width=person.damageHP+'%';
-}
 
-function changeHP(count,person){
-    if(person.damageHP<count){
-        person.damageHP=0;
-        alert(person.name+' lose!');
-        $btn.disabled=true;
-    }else{
-    person.damageHP-=count;    
-    }
-}
 init();
+$btn1.addEventListener('click',function(){
+    attack(20,20,'kick')}
+)
+$btn2.addEventListener('click',function(){
+    attack(30,10,'strike')}
+)
