@@ -1,25 +1,14 @@
 const $btn1 = document.getElementById('btn-kick');
 const $btn2 = document.getElementById('btn-strike');
+
 const character ={
     name:'Pikachu',
     defaultHP:100,
     damageHP:90,
     elHP:document.getElementById('health-character'),
     elProgressbar:document.getElementById('progressbar-character'),
-    renderHP:function (){
-        this.elHP.innerText=this.damageHP+'/'+this.defaultHP;
-        this.elProgressbar.style.width=this.damageHP+'%';
-    },
-    changeHP :function (count){
-        if(this.damageHP<count){
-            this.damageHP=0;
-            $btn1.disabled=true;
-            $btn2.disabled=true;
-            alert(this.name+' lose!');
-        }else{
-        this.damageHP-=count;    
-        }
-    }
+    renderHP,
+    changeHP
 }
 
 const enemy={
@@ -28,20 +17,54 @@ const enemy={
     damageHP:90,
     elHP:document.getElementById('health-enemy'),
     elProgressbar:document.getElementById('progressbar-enemy'),
-    renderHP:function (){
-        this.elHP.innerText=this.damageHP+'/'+this.defaultHP;
+    renderHP,
+    changeHP
+}
+const{name,defaultHP,damageHP,elHP,elProgressbar}=character;
+const{name:nameen,defaultHP:defaultHPen,elHP:elHPen,elProgressbar:elProgressbaren}=enemy;
+console.log(name,nameen);
+
+
+
+function renderHP(){
+    this.elHP.innerText=this.damageHP+'/'+this.defaultHP;
         this.elProgressbar.style.width=this.damageHP+'%';
-    },
-    changeHP:function (count){
-        if(this.damageHP<count){
+};
+function changeHP(count){
+    
+    this.damageHP-=count; 
+        this.renderHP();
+        if(this.damageHP<0){
             this.damageHP=0;
+            
             $btn1.disabled=true;
             $btn2.disabled=true;
+            this.renderHP();
             alert(this.name+' lose!');
-        }else{
-        this.damageHP-=count;    
         }
-    }
+
+
+
+        const $logs= document.getElementById('#logs');
+        const $p=document.createElement('p');
+        $p.innerText=this===enemy?showl(this, character,count):showl(this, enemy,count);
+        console.log($p);
+    // $logs.insertBefore($p,$logs.children[0]);
+};
+function showl(p1,p2,count){
+const logs = [
+    `${p1.name} вспомнил что-то важное, но неожиданно ${p2.name}, не помня себя от испуга, ударил в предплечье врага.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} поперхнулся, и за это ${p2.name} с испугу приложил прямой удар коленом в лоб врага.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} забылся, но в это время наглый ${p2.name}, приняв волевое решение, неслышно подойдя сзади, ударил.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} пришел в себя, но неожиданно ${p2.name} случайно нанес мощнейший удар.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} поперхнулся, но в это время ${p2.name} нехотя раздробил кулаком \<вырезанно цензурой\> противника.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} удивился, а ${p2.name} пошатнувшись влепил подлый удар.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} высморкался, но неожиданно ${p2.name} провел дробящий удар.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} пошатнулся, и внезапно наглый ${p2.name} беспричинно ударил в ногу противника.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} расстроился, как вдруг, неожиданно ${p2.name} случайно влепил стопой в живот соперника.${-count},${p1.damageHP+'/'+p1.defaultHP}`,
+    `${p1.name} пытался что-то сказать, но вдруг, неожиданно ${p2.name} со скуки, разбил бровь сопернику.${-count},${p1.damageHP+'/'+p1.defaultHP}`
+]
+return(logs[random(logs.length)-1]);
 }
 
 
@@ -51,6 +74,7 @@ function attack(cdamage,edamage,atack){
     enemy.changeHP(random(cdamage));
     character.renderHP();
     enemy.renderHP();
+    
 };
 
 function random(num){
