@@ -45,11 +45,11 @@ function changeHP(count){
 
 
 
-        const $logs= document.getElementById('#logs');
+        const $logf= document.getElementById('#logf');
         const $p=document.createElement('p');
         $p.innerText=this===enemy?showl(this, character,count):showl(this, enemy,count);
         console.log($p);
-    // $logs.insertBefore($p,$logs.children[0]);
+    
 };
 function showl(p1,p2,count){
 const logs = [
@@ -77,18 +77,39 @@ function attack(cdamage,edamage,atack){
     
 };
 
-function random(num){
+const random=(num)=>{
     return Math.ceil(Math.random()*num);
-}
-function init() {
+};
+const init=()=> {
     console.log('Start Game!');
 
 }
 
 init();
+function press(button){
+    let c=0;
+
+        return  a=()=>{
+            c++;
+            if (c<=6){
+                let left=6-c;
+                console.log(c+" presses already, "+left+" left.");
+            }
+            if (c==6){
+                button.disabled=true;
+                console.log("All presses used")
+            }
+    }
+}
+    
+
+const press1=press($btn1);
+const press2=press($btn2);
 $btn1.addEventListener('click',function(){
+    press1();
     attack(20,20,'kick')}
 )
 $btn2.addEventListener('click',function(){
+    press2();
     attack(30,10,'strike')}
 )
